@@ -16,6 +16,7 @@ namespace LanchesMAC.Models
         [StringLength(255)]
         public string DescricaoDetalhada { get; set; }
 
+        [Display(Name = "Preço")]
         [Column(TypeName="decimal(18,2)")]
         public decimal Preco { get; set; }
 
