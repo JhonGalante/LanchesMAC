@@ -1,3 +1,4 @@
+using LanchesMAC.Areas.Admin.Servicos;
 using LanchesMAC.Context;
 using LanchesMAC.Models;
 using LanchesMAC.Repositories;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,10 +42,14 @@ namespace LanchesMAC
 
             services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Home/AccessDenied");
 
+            services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationPastaImagens"));
+
             //Definição dos repositórios da aplicação como serviços para permitir a injeção de dependencia
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<ILancheRepository, LancheRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
+
+            services.AddScoped<RelatorioVendasService>();
 
             //Serviço para obter o contexto da aplicação (criado um único serviço para toda a aplicação)
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -51,10 +57,18 @@ namespace LanchesMAC
             //Serviço para obter o carrinho de compras do usuário (criado um serviço diferente para cada requisição feita)
             services.AddScoped(cp => CarrinhoCompra.GetCarrinho(cp));
 
+            services.AddControllersWithViews();
+
+            //Configura a utilização da páginação
+            services.AddPaging(options =>
+            {
+                options.ViewName = "Bootstrap4";
+                options.PageParameterName = "pageindex";
+            });
+
+            //Configura o uso da sessão
             services.AddMemoryCache();
             services.AddSession();
-
-            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

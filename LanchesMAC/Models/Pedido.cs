@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanchesMAC.Models
 {
@@ -55,6 +56,7 @@ namespace LanchesMAC.Models
 
         [BindNever]
         [ScaffoldColumn(false)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal PedidoTotal { get; set; }
 
         //[BindNever]
@@ -68,5 +70,10 @@ namespace LanchesMAC.Models
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime? ProdutoEntregueEm { get; set; }
+
+        [BindNever]
+        [ScaffoldColumn(false)]
+        [Display(Name = "Itens no Pedido")]
+        public int TotalItensPedido { get; set; }
     }
 }

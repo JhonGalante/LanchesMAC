@@ -11,13 +11,28 @@
             <p>Data do Pedido: <strong>@Model.PedidoEnviado</strong></p>
             <p>Número do Pedido: <strong>@Model.PedidoId</strong></p>
 
-            @foreach (var item in @Model.PedidoItens)
-            {
-                <img src="@item.Lanche.ImagemUrl" width="40" height="40" />
-                <ul>@item.Quantidade</ul>
-                <ul>@item.Lanche.Nome</ul>
-                <ul>@item.Lanche.Preco</ul>
-            }
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Lanche</th>
+                        <th>Quantidade</th>
+                        <th>Nome do Lanche</th>
+                        <th>Preço</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @Model.PedidoItens)
+                    {
+                        <tr>
+                            <td><img src="@item.Lanche.ImagemUrl" width="40" height="40" /></td>
+                            <td>@item.Quantidade</td>
+                            <td>@item.Lanche.Nome</td>
+                            <td>@item.Lanche.Preco</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
             <p>Valor Total do Pedido: <strong>@ViewBag.TotalPedido</strong></p>
         </div>
     </div>

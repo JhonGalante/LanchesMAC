@@ -39,14 +39,32 @@ namespace LanchesMAC.Controllers
         [Authorize]
         public IActionResult Checkout(Pedido pedido)
         {
+            decimal precoTotalPedido = 0.0m;
+            int totalItensPedido = 0;
+
             var items = _carrinhoCompra.GetCarrinhoCompraItens();
             _carrinhoCompra.CarrinhoCompraItens = items;
 
+
+            //Verifica se existem itens de pedido
             if(_carrinhoCompra.CarrinhoCompraItens.Count == 0)
             {
                 ModelState.AddModelError("", "Seu carrinho está vazio, inclua um lanche...");
             }
 
+            //calcula o total do pedido
+            foreach (var item in items)
+            {
+                precoTotalPedido += (item.Lanche.Preco * item.Quantidade);
+                totalItensPedido += item.Quantidade;
+            }
+
+            //atribui o preco total do pedido
+            pedido.TotalItensPedido = totalItensPedido;
+
+            //atribui o total dos itens do pedido
+            pedido.PedidoTotal = precoTotalPedido;
+            
             if (ModelState.IsValid)
             {
                 _pedidoRepository.CriarPedido(pedido);

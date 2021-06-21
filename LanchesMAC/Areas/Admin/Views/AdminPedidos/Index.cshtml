@@ -1,19 +1,31 @@
-﻿@model IEnumerable<LanchesMAC.Models.Pedido>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<LanchesMAC.Models.Pedido> 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista";
 }
 
-<h1>Index</h1>
+<h3>Lista</h3>
+
+<form method="get" class="form-inline">
+    <input class="form-control" name="filter" placeholder="Filtro" value="@Model.RouteValue["Filter"]" />
+    <button type="submit" class="btn btn-info">
+        Procurar
+    </button>
+</form>
+
+Total de Pedidos: @Model.TotalRecordCount
+<div>
+    <vc:pager paging-list="@Model"></vc:pager>
+</div>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Novo</a>
 </p>
-<table class="table">
+<table class="table table-responsive">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                @Html.SortableHeaderFor(model => model.Nome, "Nome")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Sobrenome)
@@ -85,9 +97,10 @@
                 @Html.DisplayFor(modelItem => item.ProdutoEntregueEm)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PedidoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PedidoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PedidoId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.PedidoId">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.PedidoId">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.PedidoId">Deletar</a> |
+                <a asp-action="PedidoLanches" asp-route-id="@item.PedidoId">Ver Lanches</a>
             </td>
         </tr>
 }

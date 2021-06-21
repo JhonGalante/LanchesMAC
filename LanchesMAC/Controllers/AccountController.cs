@@ -49,14 +49,7 @@ namespace LanchesMAC.Controllers
 
                     if (result.Succeeded)
                     {
-                        if (string.IsNullOrEmpty(loginVM.RetornoUrl))
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else
-                        {
-                            return RedirectToAction(loginVM.RetornoUrl);
-                        }
+                        return RedirectToAction("Index", "Home");
                     }
                 }
 
